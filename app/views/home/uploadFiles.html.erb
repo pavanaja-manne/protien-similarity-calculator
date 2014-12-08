@@ -1,0 +1,105 @@
+
+<div id="masthead">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <h1>Similarity Calculator with uploaded files
+          <p class="lead"></p>
+        </h1>
+      </div>
+      <div class="col-md-5">
+        <div class="well well-lg">
+          <div class="row">
+            <div class="col-sm-12">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /cont -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="top-spacer"> </div>
+      </div>
+    </div>
+  </div><!-- /cont -->
+
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel">
+        <div class="panel-body">
+          <!--/stories-->
+          <div class="row">
+            <br>
+            <div class="col-md-2 col-sm-3 text-center">
+              <a class="story-title" href="#"><img alt="" src="/assets/cosine.png" style="width:100px;height:100px" class="img-square"></a>
+            </div>
+            <div class="col-md-10 col-sm-9">
+              <h3>Caluclate the Similarity using Cosine Algorithm </h3>
+              <div class="row">
+                <div class="col-xs-9">
+                  <form action="/file_upload_cosine" controller="calculator" method="POST" enctype="multipart/form-data">
+                       File1: <input type="file" name="file1" />
+                       <br/>
+                       File2: <input type="file" name="file2" />
+                       <br/>
+                       <input type="submit" class="btn btn-success" value="Calculate"></input>
+                  </form>
+                  
+                  </div>
+                
+              </div>
+              <br/><br/>
+            </div>
+          </div>
+          <hr>
+
+          <div class="row">
+            <br>
+            <div class="col-md-2 col-sm-3 text-center">
+              <a class="story-title" href="#"><img alt="" src="/assets/jaccard.png" style="width:100px;height:100px" class="img-square"></a>
+            </div>
+            <div class="col-md-10 col-sm-9">
+              <h3>Caluclate the Similarity using Jaccard Algorithm </h3>
+              <div class="row">
+                <div class="col-xs-9">
+                     <form action="/file_upload_jaccard"  method="POST" enctype="multipart/form-data">
+                           File1: <input type="file" name="file1" />
+                           <br/>
+                           File2: <input type="file" name="file2" />
+                           <br/>
+                           <input type="submit" class="btn btn-success" value="Calculate"></input>
+                      </form>
+                  </div>
+                <div class="col-xs-3"></div>
+              </div>
+              <br><br>
+            </div>
+          </div>
+          <hr>
+
+          
+
+
+
+   	</div><!--/col-12-->
+  </div>
+</div>
+
+
+
+<hr/>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('input[type=file]').bootstrapFileInput();
+  });
+</script>  

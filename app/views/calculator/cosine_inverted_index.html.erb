@@ -1,23 +1,23 @@
-<%= @time2-@time1%>
-<h3>Lower Triangular matrix </h3>
-<table class="table table-striped table-bordered table-condensed">
-  <b>
+<h1> Cosine Inverted Index </h1>
+<h4> Total Time taken for the Process: <%= @time2-@time1%> seconds</h4>
+
+<h3><u>Lower Triangular matrix</u> </h3>
+<table class="table table-striped table-bordered table-condensed">  
     <tr>
-      <td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td>
-        
+      <td></td><% @documents.each do |d| %> <td><b><%=d%></b></td><%end%>
     </tr>
 <% @similarities.each_with_index do |data,i| %>
     <tr>
       <td>
-        <%= i+1 %>
-      </td>    
+        <b><%= @documents[i] %></b>
+      </td>
     <% data.each do |d| %>
         <td>
-            <%= d %>
+            <%= d.to_f %>
         </td>        
     <% end%>
       </tr>
 <% end %>
-    </b>
+    
 </table>
 

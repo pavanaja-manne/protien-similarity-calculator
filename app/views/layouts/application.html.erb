@@ -24,13 +24,25 @@
     <nav class="collapse navbar-collapse" role="navigation">
       <ul class="nav navbar-nav">
         <li>
-          <a href="#">Jaccard</a>
+          <a href="/calculator/jaccard" onclick="window.location.href='/calculator/jaccard' ">Jaccard</a>
         </li>
         <li>
-          <a href="#">Cosine</a>
+          <a href="/calculator/cosine" onclick="window.location.href='/calculator/cosine' ">Cosine</a>
         </li>
         <li>
-          <a href="#">Tanimoto</a>
+          <a href="/calculator/cosine" onclick="window.location.href='/calculator/cosine_inverted_index' ">Cosine Inverted Index</a>
+        </li>
+        <li>
+          <a href="/uploadFiles" onclick="window.location.href='/uploadFiles' ">uploadFiles</a>
+        </li>
+        <li>
+          <a href="/cosineSequenceGraph"  onclick="window.location.href='/cosineSequenceGraph' " >Cosine Graph</a>
+        </li>
+       <!-- <li>
+          <a href="/cosineParallelGraph" onclick="window.location.href='/cosineParallelGraph' ">Cosine Graph(Parallel)</a>
+        </li> -->
+        <li>
+          <a href="/jaccardGraph" onclick="window.location.href='/jaccardGraph' ">Jaccard Graph</a>
         </li>
       </ul>
       
@@ -38,6 +50,17 @@
   </div>
 </header>
 <%= yield %>
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
 
+      </div>
+      <div class="col-sm-6">
+          <p class="pull-right">561 project <i class="icon-heart-empty"></i> by <a href="#">Raghu Sangars(RRS4291) & Pavanaja Manne(PXM8950)</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

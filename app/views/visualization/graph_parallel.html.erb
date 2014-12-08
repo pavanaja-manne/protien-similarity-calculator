@@ -1,0 +1,48 @@
+<script type="text/javascript" src="/assets/raphael.js"></script>
+<script type="text/javascript" src="/assets/dracula_graffle.js"></script>
+<script type="text/javascript" src="/assets/dracula_graph.js"></script>
+<h1> Time Taken </h1>
+<div id="canvas" style="height: 600px; width: 1200px"></div>
+
+<script>
+	var redraw;
+
+/* only do all this when document has finished loading (needed for RaphaelJS) */
+window.onload = function() {
+        var width = 1200;
+        var height = 600;
+        var g = new Graph();
+        g.addNode("d1a7.allKeys");
+        g.addNode("d1au.allKeys");
+        g.addNode("d1dl.allKeys");
+        g.addNode("d1h8.allKeys");
+        g.addNode("d1lt.allKeys");
+        g.addNode("d1q3.allKeys");
+        $.ajax({
+		 url: "/visualization/loadTimeParallel",
+		 success: function(response){
+                    console.log(response);
+                    $.each(response, function( index, value ) {
+                       var st = {
+                          directed: true,
+                          label: value.similarity,
+                          'label-style' : {
+                            'font-size': 10,
+                            'color': "red"
+                          }
+                        };
+                        g.addEdge(value.file1, value.file2,st);
+                    });
+                     /* layout the graph using the Spring layout implementation */
+                      var layouter = new Graph.Layout.Spring(g);
+                      /* draw the graph using the RaphaelJS draw implementation */
+                      var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
+		 }
+	});
+                  redraw = function() {
+                        layouter.layout();
+                        renderer.draw();
+                   };
+};
+
+</script>

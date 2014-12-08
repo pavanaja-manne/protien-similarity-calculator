@@ -1,0 +1,76 @@
+<script type="text/javascript" src="/assets/raphael.js"></script>
+<script type="text/javascript" src="/assets/dracula_graffle.js"></script>
+<script type="text/javascript" src="/assets/dracula_graph.js"></script>
+<h1> Jaccard Visualization </h1>
+
+<div id="canvas" style="height: 600px; width: 1400px"></div>
+
+
+<script>
+	var redraw;
+
+/* only do all this when document has finished loading (needed for RaphaelJS) */
+window.onload = function() {
+        var width = 1400;
+        var height = 600;
+        var g = new Graph();        
+        g.addNode("d1a7.allKeys",{          
+            fill: "blue"
+          }
+        );
+        g.addNode("d1au.allKeys",{
+          fill: "blue"
+        });
+        g.addNode("d1dl.allKeys",{
+          fill: "blue"
+        });
+        g.addNode("d1h8.allKeys",{
+          fill: "blue"
+        });
+        g.addNode("d1lt.allKeys",{
+          fill: "blue"
+        });
+        g.addNode("d1q3.allKeys",{
+          fill: "blue"
+        });
+        $.ajax({
+		 url: "/visualization/loadJaccardVisualSequence",
+		 success: function(response){
+                    console.log(response);
+                    $.each(response, function( index, value ) {
+                       fl_val = parseFloat(value.similarity);
+                       if(fl_val > 0.8){
+                       if(fl_val > 0.8){
+                         fill = '#E01929';
+                         width = 1000;
+                       }
+                       else{
+                         fill = '#9A9FA1';
+                         width = 500;
+                       }
+                       var st = {
+                          directed: false,
+                          label: value.similarity,
+                          //width: width,
+                          fill: fill,
+                          'label-style' : {
+                            'font-size': 10,
+                            'fill': "#111166"
+                          }
+                        };
+                        g.addEdge(value.file1, value.file2,st);
+                       }
+                    });
+                     /* layout the graph using the Spring layout implementation */
+                      var layouter = new Graph.Layout.Spring(g);
+                      /* draw the graph using the RaphaelJS draw implementation */
+                      var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
+		 }
+	});
+                  redraw = function() {
+                        layouter.layout();
+                        renderer.draw();
+                   };
+};
+
+</script>

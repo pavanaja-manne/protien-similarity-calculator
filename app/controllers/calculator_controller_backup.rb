@@ -324,9 +324,9 @@ def cosine_inverted_index
 			end
 	  }
 	end
-    trds.each{|t| t.join }
+	trds.each{|t| t.join }
     (0..5).each do |i|
-      (0..i).each do |j|
+      (0..5).each do |j|
         sq_rt_denom1 = Math.sqrt(@denom1[i][j])
         sq_rt_denom2 = Math.sqrt(@denom2[i][j])
         @similarities[i][j] = (@numerators[i][j].to_f)/(sq_rt_denom1.to_f * sq_rt_denom2.to_f) #/
@@ -337,91 +337,258 @@ def cosine_inverted_index
 
 
 
+
+
+  ############################################################
+  ######## Tanimoto Algorithm ################################
+  ############################################################
+  def tanimoto    
+    documents = []
+    #file1    
+    file1 = File.read(Rails.root.join('public/files/d1a7.allKeys')).split("\n")
+    @doc1 = {}
+    file1.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc1[data[0]] = data[1]
+    end
+    #file2
+    file2 = File.read(Rails.root.join('public/files/d1au.allKeys')).split("\n")
+    @doc2 = {}
+    file2.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc2[data[0]] = data[1]      
+    end
+    #file3
+    file3 = File.read(Rails.root.join('public/files/d1dl.allKeys')).split("\n")
+    @doc3 = {}
+    file3.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc3[data[0]] = data[1]
+    end
+    #file4
+    file4 = File.read(Rails.root.join('public/files/d1h8.allKeys')).split("\n")
+    @doc4 = {}
+    file4.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc4[data[0]] = data[1]
+    end
+    #file5
+    file5 = File.read(Rails.root.join('public/files/d1lt.allKeys')).split("\n")
+    @doc5 = {}
+    file5.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc5[data[0]] = data[1]
+    end
+    #file6
+    file6 = File.read(Rails.root.join('public/files/d1q3.allKeys')).split("\n")
+    @doc6 = {}
+    file6.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc6[data[0]] = data[1]
+    end    
+    @documents = [@doc1,@doc2,@doc3,@doc4,@doc5,@doc6]
+    
+   #Tanimoto Algorithm
+     num = 0
+     denom1  = 0
+     denom2 = 0
+     @doc1.each do |k,v|
+       if !@doc2[k].nil?
+             num += @doc1[k].to_i*@doc2[k].to_i
+             denom1 += @doc1[k].to_i*@doc1[k].to_i
+             denom2 += @doc2[k].to_i*@doc2[k].to_i
+       end  
+     end
+     sq_rt_denom1 = Math.sqrt(denom1)
+     sq_rt_denom2 = Math.sqrt(denom2)
+     @similarity = (num.to_f)/(sq_rt_denom1.to_f * sq_rt_denom2.to_f) #/
+     @distance = 1.0 - @similarity 
+
+    
+    #cosine Similarity
+    @similarities = []
+    (0..5).each do |ind|
+      data_array = []
+      (0..ind).each do |indj|
+        num = 0
+        denom1  = 0
+        denom2 = 0
+        @documents[ind].each do |k,v|
+          if (!@documents[indj][k].nil?) && (@documents[indj][k].to_i > 0) && (@documents[ind][k].to_i > 0)
+                num += @documents[ind][k].to_i*@documents[indj][k].to_i
+                denom1 += @documents[ind][k].to_i*@documents[ind][k].to_i
+                denom2 += @documents[indj][k].to_i*@documents[indj][k].to_i
+          end  
+        end
+        sq_rt_denom1 = Math.sqrt(denom1)
+        sq_rt_denom2 = Math.sqrt(denom2)
+        @similarity = (num.to_f)/(sq_rt_denom1.to_f + sq_rt_denom2.to_f - num.to_f) #/
+        data_array << @similarity
+        #@distance = 1.0 - @similarity 
+      end
+      @similarities << data_array
+    end    
+  end
+
+
+
+
   ############################################################
   ######## Jaccard Algorithm #################################
   ############################################################
-  def jaccard
-      @time1 = Time.now
-      @document_names = ["d1a7.allKeys","d1au.allKeys","d1dl.allKeys","d1h8.allKeys","d1lt.allKeys","d1q3.allKeys"]
-      #file1
-      file1 = File.read(Rails.root.join('public/files/d1a7.allKeys')).split("\n")
-      @doc1 = {}
-      file1.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc1[data[0]] = data[1] if data[1].to_i >0
-      end
-      #file2
-      file2 = File.read(Rails.root.join('public/files/d1au.allKeys')).split("\n")
-      @doc2 = {}
-      file2.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc2[data[0]] = data[1] if data[1].to_i >0
-      end
-      #file3
-      file3 = File.read(Rails.root.join('public/files/d1dl.allKeys')).split("\n")
-      @doc3 = {}
-      file3.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc3[data[0]] = data[1] if data[1].to_i >0
-      end
-      #file4
-      file4 = File.read(Rails.root.join('public/files/d1h8.allKeys')).split("\n")
-      @doc4 = {}
-      file4.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc4[data[0]] = data[1] if data[1].to_i >0
-      end
-      #file5
-      file5 = File.read(Rails.root.join('public/files/d1lt.allKeys')).split("\n")
-      @doc5 = {}
-      file5.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc5[data[0]] = data[1] if data[1].to_i >0
-      end
-      #file6
-      file6 = File.read(Rails.root.join('public/files/d1q3.allKeys')).split("\n")
-      @doc6 = {}
-      file6.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc6[data[0]] = data[1] if data[1].to_i >0
-      end
-      @document = [@doc1,@doc2,@doc3,@doc4,@doc5,@doc6]
-
-      #Jaccard Algorithm
-      @times = []
-      @similarities = []
-      (0..5).each do |ind|
-        data_array = []
-        time_array = []
-        (0..ind).each do |indj|
-              time1 = Time.now
-              common = 0
-              @document[ind].each do |k,v|                
-                  if (!@document[indj][k].nil?)
-                    common += 1
-                  end
-              end
-          @jaccard_similarity = common.to_f/(@document[ind].length.to_f + @document[indj].length.to_f - common.to_f)
-          data_array << @jaccard_similarity
-          time2 = Time.now
-          time_array << time2 - time1
-          @time_taken = TimeTaken.where(:file1 => @document_names[ind], :file2 => @document_names[indj], :method => "jaccard").first
-          if @time_taken.nil?
-            @time_taken = TimeTaken.new
-          end
-          @time_taken.file1 = @document_names[ind]
-          @time_taken.file2 = @document_names[indj]
-          @time_taken.time = (time2 - time1).to_s
-          @time_taken.method = "jaccard"
-          @time_taken.similarity = @jaccard_similarity
-          @time_taken.save
+  def jaccard    
+    @document_names = ["d1a7.allKeys","d1au.allKeys","d1dl.allKeys","d1h8.allKeys","d1lt.allKeys","d1q3.allKeys"]
+    #file1    
+    file1 = File.read(Rails.root.join('public/files/d1a7.allKeys')).split("\n")
+    @doc1 = {}
+    file1.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc1[data[0]] = data[1]
+    end
+    #file2
+    file2 = File.read(Rails.root.join('public/files/d1au.allKeys')).split("\n")
+    @doc2 = {}
+    file2.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc2[data[0]] = data[1]      
+    end
+    #file3
+    file3 = File.read(Rails.root.join('public/files/d1dl.allKeys')).split("\n")
+    @doc3 = {}
+    file3.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc3[data[0]] = data[1]
+    end
+    #file4
+    file4 = File.read(Rails.root.join('public/files/d1h8.allKeys')).split("\n")
+    @doc4 = {}
+    file4.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc4[data[0]] = data[1]
+    end
+    #file5
+    file5 = File.read(Rails.root.join('public/files/d1lt.allKeys')).split("\n")
+    @doc5 = {}
+    file5.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc5[data[0]] = data[1]
+    end
+    #file6
+    file6 = File.read(Rails.root.join('public/files/d1q3.allKeys')).split("\n")
+    @doc6 = {}
+    file6.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc6[data[0]] = data[1]
+    end    
+    @document = [@doc1,@doc2,@doc3,@doc4,@doc5,@doc6]
+    
+    #Jaccard Algorithm
+    @times = []
+    @similarities = []
+    (0..5).each do |ind|
+      data_array = []
+      time_array = []
+      (0..ind).each do |indj|
+            time1 = Time.now
+            common = 0
+            @document[ind].each do |k,v|                
+                if (@document[ind][k].to_i > 0) && (@document[indj][k].to_i >0)
+                  common += 1
+                end                            
+            end
+        @jaccard_similarity = common.to_f/(@document[ind].length.to_f + @document[indj].length.to_f - common.to_f)        
+        data_array << @jaccard_similarity
+        time2 = Time.now
+        time_array << time2 - time1
+        @time_taken = TimeTaken.where(:file1 => @document_names[ind], :file2 => @document_names[indj], :method => "jaccard").first
+        if @time_taken.nil?
+          @time_taken = TimeTaken.new
         end
-        @times << time_array
-        @similarities << data_array
+        @time_taken.file1 = @document_names[ind]
+        @time_taken.file2 = @document_names[indj]
+        @time_taken.time = (time2 - time1).to_s
+        @time_taken.method = "jaccard"
+        @time_taken.similarity = @jaccard_similarity
+        @time_taken.save
       end
-      @time2 = Time.now
+      @times << time_array
+      @similarities << data_array
+    end    
   end
   
+  ############################################################
+  ######## Jaccard Algorithm Different Style Based Weights ###
+  ############################################################
+  def jaccard_weights    
+    documents = []
+    #file1    
+    file1 = File.read(Rails.root.join('public/files/d1a7.allKeys')).split("\n")
+    @doc1 = {}
+    file1.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc1[data[0]] = data[1]
+    end
+    #file2
+    file2 = File.read(Rails.root.join('public/files/d1au.allKeys')).split("\n")
+    @doc2 = {}
+    file2.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc2[data[0]] = data[1]      
+    end
+    #file3
+    file3 = File.read(Rails.root.join('public/files/d1dl.allKeys')).split("\n")
+    @doc3 = {}
+    file3.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc3[data[0]] = data[1]
+    end
+    #file4
+    file4 = File.read(Rails.root.join('public/files/d1h8.allKeys')).split("\n")
+    @doc4 = {}
+    file4.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc4[data[0]] = data[1]
+    end
+    #file5
+    file5 = File.read(Rails.root.join('public/files/d1lt.allKeys')).split("\n")
+    @doc5 = {}
+    file5.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc5[data[0]] = data[1]
+    end
+    #file6
+    file6 = File.read(Rails.root.join('public/files/d1q3.allKeys')).split("\n")
+    @doc6 = {}
+    file6.each_with_index do |line,index|      
+      data = line.split(" ")
+      @doc6[data[0]] = data[1]
+    end    
+    @document = [@doc1,@doc2,@doc3,@doc4,@doc5,@doc6]
+    
+    #Jaccard Algorithm
+    @similarities = []
+    (0..5).each do |ind|
+      data_array = []
+      (0..ind).each do |indj|        
+            numerator = 0
+            denominator = 0
+        @document[ind].each do |k,v|
+              if !@document[indj][k].nil?
+                    if @document[ind][k].to_i > @document[indj][k].to_i
+                        numerator += @document[indj][k].to_i
+                        denominator += @document[ind][k].to_i
+                    else
+                        numerator += @document[ind][k].to_i
+                        denominator += @document[indj][k].to_i
+                    end            
+              end  
+            end
+            @jaccard_similarity = numerator.to_f/denominator.to_f        
+        data_array << @jaccard_similarity        
+      end
+      @similarities << data_array
+    end    
+  end
 
 
   ##################################################

@@ -1,10 +1,26 @@
 Similarity::Application.routes.draw do
+  get "visualization/time"
   root "home#index"
   get "calculator/cosine"
   get "calculator/cosine_parallel"
   get "calculator/jaccard"
-  get "calculator/tanimoto"
   get "calculator/cosine_inverted_index"
+  get "calculator/cosine_storage_parallel"
+
+  get "/uploadFiles" => "home#uploadFiles"
+  get "/cosineSequenceGraph" => "visualization#graph_sequence"
+  get "/cosineParallelGraph" => "visualization#graph_parallel"
+  get "/jaccardGraph" => "visualization#jaccardVisualization"
+
+  get "/visualization/loadTimeParallel"
+  get "/visualization/loadTimeSequence"
+  get "/visualization/loadJaccardVisualSequence"
+  
+
+  post "/file_upload_cosine" => "file_upload#cosine_file_upload"
+  post "/file_upload_jaccard" => "file_upload#jaccard_file_upload"
+
+
   #get "calculator/jaccard-tanimoto"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

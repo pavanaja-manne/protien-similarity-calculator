@@ -9,12 +9,9 @@ gem 'parallel'
 gem 'sass-rails', '~> 4.0.2'
 
 #gem 'unicorn'
-gem 'sqlite3'
-
-gem "ruby-prof"
 
 gem 'celluloid-pmap'
-gem 'puma'
+\gem 'puma'
 
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
