@@ -8,51 +8,17 @@ class CalculatorController < ApplicationController
   ############################################################
   def cosine    
     @time1 = Time.now
-    documents = []
+    @documents = []
     @document_names = ["d1a7.allKeys","d1au.allKeys","d1dl.allKeys","d1h8.allKeys","d1lt.allKeys","d1q3.allKeys"]
-    #file1    
-    file1 = File.read(Rails.root.join('public/files/d1a7.allKeys')).split("\n")
-    @doc1 = {}
-    file1.each_with_index do |line,index|      
-      data = line.split(" ")
-      @doc1[data[0]] = data[1]
-    end
-    #file2
-    file2 = File.read(Rails.root.join('public/files/d1au.allKeys')).split("\n")
-    @doc2 = {}
-    file2.each_with_index do |line,index|      
-      data = line.split(" ")
-      @doc2[data[0]] = data[1]      
-    end
-    #file3
-    file3 = File.read(Rails.root.join('public/files/d1dl.allKeys')).split("\n")
-    @doc3 = {}
-    file3.each_with_index do |line,index|      
-      data = line.split(" ")
-      @doc3[data[0]] = data[1]
-    end
-    #file4
-    file4 = File.read(Rails.root.join('public/files/d1h8.allKeys')).split("\n")
-    @doc4 = {}
-    file4.each_with_index do |line,index|      
-      data = line.split(" ")
-      @doc4[data[0]] = data[1]
-    end
-    #file5
-    file5 = File.read(Rails.root.join('public/files/d1lt.allKeys')).split("\n")
-    @doc5 = {}
-    file5.each_with_index do |line,index|      
-      data = line.split(" ")
-      @doc5[data[0]] = data[1]
-    end
-    #file6
-    file6 = File.read(Rails.root.join('public/files/d1q3.allKeys')).split("\n")
-    @doc6 = {}
-    file6.each_with_index do |line,index|      
-      data = line.split(" ")
-      @doc6[data[0]] = data[1]
+    Dir.glob('public/files/*.allKeys') do |all_keys_file|
+      file = File.read(all_keys_file).split("\n")
+      @doc = {}
+      file.each_with_index do |line,index|
+      		data = line.split(" ")
+          @doc[data[0]] = data[1]
+    	end
+      @documents << @doc
     end    
-    @documents = [@doc1,@doc2,@doc3,@doc4,@doc5,@doc6]  
     #cosine Similarity
     @times = []
     @similarities = []
@@ -342,51 +308,18 @@ def cosine_inverted_index
   ############################################################
   def jaccard
       @time1 = Time.now
+      @document = []
       @document_names = ["d1a7.allKeys","d1au.allKeys","d1dl.allKeys","d1h8.allKeys","d1lt.allKeys","d1q3.allKeys"]
-      #file1
-      file1 = File.read(Rails.root.join('public/files/d1a7.allKeys')).split("\n")
-      @doc1 = {}
-      file1.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc1[data[0]] = data[1] if data[1].to_i >0
+      Dir.glob('public/files/*.allKeys') do |all_keys_file|
+        file = File.read(all_keys_file).split("\n")
+        @doc = {}
+        file.each_with_index do |line,index|
+            data = line.split(" ")
+            @doc[data[0]] = data[1]
+        end
+        @document << @doc
       end
-      #file2
-      file2 = File.read(Rails.root.join('public/files/d1au.allKeys')).split("\n")
-      @doc2 = {}
-      file2.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc2[data[0]] = data[1] if data[1].to_i >0
-      end
-      #file3
-      file3 = File.read(Rails.root.join('public/files/d1dl.allKeys')).split("\n")
-      @doc3 = {}
-      file3.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc3[data[0]] = data[1] if data[1].to_i >0
-      end
-      #file4
-      file4 = File.read(Rails.root.join('public/files/d1h8.allKeys')).split("\n")
-      @doc4 = {}
-      file4.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc4[data[0]] = data[1] if data[1].to_i >0
-      end
-      #file5
-      file5 = File.read(Rails.root.join('public/files/d1lt.allKeys')).split("\n")
-      @doc5 = {}
-      file5.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc5[data[0]] = data[1] if data[1].to_i >0
-      end
-      #file6
-      file6 = File.read(Rails.root.join('public/files/d1q3.allKeys')).split("\n")
-      @doc6 = {}
-      file6.each_with_index do |line,index|
-        data = line.split(" ")
-        @doc6[data[0]] = data[1] if data[1].to_i >0
-      end
-      @document = [@doc1,@doc2,@doc3,@doc4,@doc5,@doc6]
-
+      
       #Jaccard Algorithm
       @times = []
       @similarities = []

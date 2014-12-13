@@ -39,7 +39,7 @@ window.onload = function() {
                     console.log(response);
                     $.each(response, function( index, value ) {
                        fl_val = parseFloat(value.similarity);
-                       if(fl_val > 0.8){
+                       
                        if(fl_val > 0.8){
                          fill = '#E01929';
                          width = 1000;
@@ -59,7 +59,7 @@ window.onload = function() {
                           }
                         };
                         g.addEdge(value.file1, value.file2,st);
-                       }
+                       
                     });
                      /* layout the graph using the Spring layout implementation */
                       var layouter = new Graph.Layout.Spring(g);

@@ -16,7 +16,7 @@ class FileUploadController < ApplicationController
       @doc2[data[0]] = data[1]
     end
     @time1 = Time.now
-#     #Cosine Algorithm
+    ##Cosine Algorithm
      num = 0
      denom1  = 0
      denom2 = 0
