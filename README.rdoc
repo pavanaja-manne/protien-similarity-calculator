@@ -8,3 +8,12 @@ This is a rails application to Calculate similarity between protiens as project 
 * 
 
 You can access the application from localhost:3000
+
+
+==Parallel Programming
+To Run the Parallel program using Jruby :
+* You need to install jRuby 1.7.3
+* run from the console - jruby parallel_file.rb
+* you can see the output time calculated in terminal 
+* you can see the thread execution and files executed in thread in file thread_out.txt
+
