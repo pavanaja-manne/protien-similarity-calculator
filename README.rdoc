@@ -1,28 +1,19 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a rails application to Calculate similarity between protiens as project work for Information Retrieval & Storage 561
 
-Things you may want to cover:
+* To run this application local.. YOu need to have ruby 2.0.0, rails 4.1.2
+* run from terminal-  bundle install 
+* run from terminal- rails s 
+* 
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+You can access the application from localhost:3000
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+==Parallel Programming
+To Run the Parallel program using Jruby :
+* You need to install jRuby 1.7.3
+* run from the console - jruby parallel_file.rb
+* you can see the output time calculated in terminal 
+* you can see the thread execution and files executed in thread in file thread_out.txt
+
