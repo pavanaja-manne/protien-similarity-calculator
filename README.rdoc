@@ -5,4 +5,6 @@ This is a rails application to Calculate similarity between protiens as project 
 * To run this application local.. YOu need to have ruby 2.0.0, rails 4.1.2
 * run from terminal-  bundle install 
 * run from terminal- rails s 
+* 
 
+You can access the application from localhost:3000
